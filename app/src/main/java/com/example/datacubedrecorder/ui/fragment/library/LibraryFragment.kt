@@ -1,4 +1,6 @@
 package com.example.datacubedrecorder.ui.fragment.library
 
-class LibraryFragment {
+import androidx.fragment.app.Fragment
+
+class LibraryFragment : Fragment() {
 }
