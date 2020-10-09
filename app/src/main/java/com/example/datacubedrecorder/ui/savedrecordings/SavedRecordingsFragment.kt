@@ -54,4 +54,4 @@ class SavedRecordingsFragment : Fragment() {
 }
 
 //TODO onclick items to play,
-//TODO long press to show menu for deletion
+//TODO long press to show menu for deletion??
