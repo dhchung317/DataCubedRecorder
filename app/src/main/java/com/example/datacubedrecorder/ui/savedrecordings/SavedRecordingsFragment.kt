@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.datacubedrecorder.R
+import com.example.datacubedrecorder.data.database.model.RecordingModel
 import com.example.datacubedrecorder.ui.MainViewModel
 import com.example.datacubedrecorder.ui.savedrecordings.rv.SavedRecordingsAdapter
 
@@ -23,7 +24,11 @@ class SavedRecordingsFragment : Fragment() {
     private lateinit var recordingsRecyclerView: RecyclerView
     private lateinit var adapter: SavedRecordingsAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_saved_recordings, container, false);
     }
 
@@ -36,11 +41,15 @@ class SavedRecordingsFragment : Fragment() {
         })
     }
 
-    private fun initRecyclerView(view: View){
+    private fun initRecyclerView(view: View) {
         recordingsRecyclerView = view.findViewById(R.id.recordings_recyclerview)
-        recordingsRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
-        adapter = SavedRecordingsAdapter(listOf())
+        recordingsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        adapter = SavedRecordingsAdapter(deleteListener)
         recordingsRecyclerView.adapter = adapter
+    }
+
+    private val deleteListener: (RecordingModel) -> Unit = { it ->
+        viewModel.deleteByTitle(it.title)
     }
 }
 
