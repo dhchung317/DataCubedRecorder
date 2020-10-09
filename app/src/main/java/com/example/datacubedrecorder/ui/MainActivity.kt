@@ -2,6 +2,7 @@ package com.example.datacubedrecorder.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.datacubedrecorder.R
 import com.google.android.material.tabs.TabLayout
@@ -11,14 +12,16 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initViews()
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
-    fun initViews() {
+    private fun initViews() {
         viewPager = findViewById(R.id.viewpager)
         viewPager.isUserInputEnabled = false
         val viewPagerAdapter = MainPagerAdapter(supportFragmentManager, this.lifecycle)
@@ -35,8 +38,6 @@ class MainActivity : AppCompatActivity() {
             }
         }.attach()
     }
-
-
 }
 
 //TODO camera permissions check in main activity upon opening app
@@ -44,3 +45,4 @@ class MainActivity : AppCompatActivity() {
 //TODO extensibility
 //TODO prevent memory leaks
 //TODO rotation/screen sizes
+

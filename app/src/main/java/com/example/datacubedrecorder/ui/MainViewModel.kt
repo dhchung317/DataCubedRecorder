@@ -1,4 +1,7 @@
 package com.example.datacubedrecorder.ui
 
-class MainViewModel {
+import androidx.lifecycle.ViewModel
+
+class MainViewModel: ViewModel() {
+
 }

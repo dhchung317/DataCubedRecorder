@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">DataCubed Recorder</string>
-    <string name="camera_tab_text">CAMERA</string>
-    <string name="library_tab_text">LIBRARY</string>
+    <string name="camera_tab_text">RECORD</string>
+    <string name="library_tab_text">SAVED RECORDINGS</string>
+    <string name="enter_title">Enter a title</string>
+    <string name="min_time">0:00</string>
+    <string name="max_time">3:00</string>
+    <string name="slider_title">Duration</string>
 </resources>
