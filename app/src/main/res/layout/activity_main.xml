@@ -23,7 +23,7 @@
             android:background="?attr/colorPrimaryDark"
             app:tabGravity="fill"
             app:tabMode="fixed"
-            app:tabTextColor="@color/colorAccent"
+            app:tabTextColor="@color/colorAccentDim"
             app:tabSelectedTextColor="@android:color/white">
 
             <com.google.android.material.tabs.TabItem
