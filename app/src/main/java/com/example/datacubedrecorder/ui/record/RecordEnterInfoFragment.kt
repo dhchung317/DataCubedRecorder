@@ -17,7 +17,6 @@ import com.google.android.material.slider.Slider
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.floor
-import kotlin.math.roundToInt
 
 class RecordEnterInfoFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
@@ -30,7 +29,6 @@ class RecordEnterInfoFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        initViews()
     }
 
     override fun onCreateView(
@@ -41,12 +39,16 @@ class RecordEnterInfoFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_record_enter_info, container, false);
     }
 
-    private fun initViews() {
-        titleEditText = requireActivity().findViewById(R.id.enter_title_editText)
-        slider = requireActivity().findViewById(R.id.slider)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews(view)
+    }
+    private fun initViews(view: View) {
+        titleEditText = view.findViewById(R.id.enter_title_editText)
+        slider = view.findViewById(R.id.slider)
         setupSlider()
-        displayTime = requireActivity().findViewById(R.id.display_time_textView)
-        recordButton = requireActivity().findViewById(R.id.record_button)
+        displayTime = view.findViewById(R.id.display_time_textView)
+        recordButton = view.findViewById(R.id.record_button)
         recordButton.setOnClickListener { startRecording() }
     }
 
