@@ -17,6 +17,10 @@ class MainRepositoryImpl(private val recordingDao: RecordingDao): MainRepository
         return recordingDao.insert(recording)
     }
 
+    override fun deleteRecordingByTitle(title: String) {
+        return recordingDao.deleteByTitle(title)
+    }
+
     override fun clearDatabase() {
         recordingDao.deleteAll()
     }

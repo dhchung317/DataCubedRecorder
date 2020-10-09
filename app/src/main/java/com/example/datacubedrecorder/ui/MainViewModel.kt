@@ -27,4 +27,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun insertRecording(recordingModel: RecordingModel){
         repository.insertRecording(recordingModel)
     }
+
+    fun deleteByTitle(title: String){
+        repository.deleteRecordingByTitle(title)
+    }
 }

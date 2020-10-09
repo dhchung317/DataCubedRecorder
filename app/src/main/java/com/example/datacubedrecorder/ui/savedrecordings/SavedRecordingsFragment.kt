@@ -41,6 +41,8 @@ class SavedRecordingsFragment : Fragment() {
         recordingsRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
         adapter = SavedRecordingsAdapter(listOf())
         recordingsRecyclerView.adapter = adapter
-
     }
 }
+
+//TODO onclick items to play,
+//TODO long press to show menu for deletion

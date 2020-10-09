@@ -12,5 +12,7 @@ interface MainRepository {
 
     fun insertRecording(recording: RecordingModel): Long
 
+    fun deleteRecordingByTitle(title: String)
+
     fun clearDatabase()
 }
