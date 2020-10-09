@@ -1,6 +1,7 @@
 package com.example.datacubedrecorder.ui.savedrecordings.rv
 
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -14,12 +15,14 @@ class SavedRecordingsViewHolder(itemView: View) :RecyclerView.ViewHolder(itemVie
     private val itemDurationTextView: TextView = itemView.findViewById(R.id.item_duration)
     private val itemDateTextView: TextView = itemView.findViewById(R.id.item_date)
     private val itemImageView: ImageView = itemView.findViewById(R.id.item_image)
+    private val deleteButton: ImageButton = itemView.findViewById(R.id.delete_item_button)
 
-    fun onBind(recordingModel: RecordingModel) {
+    fun onBind(recordingModel: RecordingModel, deleteListener:(RecordingModel) -> Unit) {
         itemTitleTextView.text = recordingModel.title
         itemDurationTextView.text = formatDuration(recordingModel.duration)
         itemDateTextView.text = recordingModel.date
         itemImageView.setImageResource(R.drawable.recording_image_placeholder)
+        deleteButton.setOnClickListener{deleteListener(recordingModel)}
     }
 //TODO utils
     private fun formatDuration(duration: Float): String {

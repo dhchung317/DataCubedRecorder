@@ -5,9 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.datacubedrecorder.R
 import com.example.datacubedrecorder.data.database.model.RecordingModel
+import kotlinx.android.synthetic.main.recording_itemview.view.*
 
-class SavedRecordingsAdapter(private var recordingModels: List<RecordingModel>) :
+class SavedRecordingsAdapter(private val deleteListener:(RecordingModel) -> Unit) :
     RecyclerView.Adapter<SavedRecordingsViewHolder>() {
+    private var recordingModels: List<RecordingModel> = listOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedRecordingsViewHolder {
         return SavedRecordingsViewHolder(
             itemView = LayoutInflater.from(parent.context)
@@ -16,7 +19,8 @@ class SavedRecordingsAdapter(private var recordingModels: List<RecordingModel>) 
     }
 
     override fun onBindViewHolder(holder: SavedRecordingsViewHolder, position: Int) {
-        holder.onBind(recordingModels[position])
+        holder.onBind(recordingModels[position], deleteListener)
+//        holder.itemView.delete_item_button.setOnClickListener{deleteListener(recordingModels[position])}
     }
 
     override fun getItemCount(): Int {
