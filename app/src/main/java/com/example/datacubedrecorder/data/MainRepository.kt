@@ -1,5 +1,12 @@
 package com.example.datacubedrecorder.data
 
+import com.example.datacubedrecorder.data.database.model.RecordingModel
+
 interface MainRepository {
-    //TODO implement method outline
+
+    fun getAllRecordings(): List<RecordingModel>
+
+    fun insertRecording(recording: RecordingModel): Long
+
+    fun clearDatabase()
 }
