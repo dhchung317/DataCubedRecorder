@@ -53,7 +53,6 @@ class RecordEnterInfoFragment : Fragment() {
     }
 
     private fun startRecording() {
-        //TODO check permissions when clicking record
         val intent = Intent(activity, RecordActivity::class.java)
         intent.putExtra("recording_data", getRecordingInfo())
         startActivity(intent)
@@ -93,7 +92,3 @@ class RecordEnterInfoFragment : Fragment() {
     }
 
 }
-
-//TODO In this tab user should be able to enter the name of the recording in a text field
-// and enter the duration of recording using a slider with a minimum of 15 seconds and a maximum of 3 minutes.
-// On pressing the record button a new activity should open which starts recording the video of the user for that set duration.

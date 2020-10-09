@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.datacubedrecorder.R
 import com.example.datacubedrecorder.ui.MainViewModel
 
 class SavedRecordingsFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
+    //TODO rv to display recordings
+    private lateinit var recordingsRecyclerView: RecyclerView
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

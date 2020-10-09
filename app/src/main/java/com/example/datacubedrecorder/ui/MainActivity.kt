@@ -40,8 +40,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-//TODO camera permissions check in main activity upon opening app
-
 //TODO extensibility
 //TODO prevent memory leaks
 //TODO rotation/screen sizes

@@ -21,6 +21,7 @@ import com.example.datacubedrecorder.data.database.model.RecordingModel
 import com.example.datacubedrecorder.ui.MainViewModel
 import kotlin.math.floor
 
+//TODO look into factoring out permissions into manager class
 class RecordActivity : AppCompatActivity(), LifecycleOwner {
     private lateinit var viewModel: MainViewModel
 
@@ -28,11 +29,6 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
     private lateinit var textureView: TextureView
 
     var counter = 0
-
-    private val REQUEST_CODE_PERMISSIONS = 10
-    private val REQUIRED_PERMISSIONS =
-        arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
-    private val tag = RecordActivity::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +45,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
             }
         } else {
             ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+                this, Companion.REQUIRED_PERMISSIONS, Companion.REQUEST_CODE_PERMISSIONS
             )
         }
     }
@@ -79,10 +75,11 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+        if (requestCode == Companion.REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
                 textureView.post { startCamera() }
             } else {
+                //TODO better handling of denied permissions
                 Toast.makeText(
                     this,
                     "Permissions not granted by the user.",
@@ -94,7 +91,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     private fun allPermissionsGranted(): Boolean {
-        for (permission in REQUIRED_PERMISSIONS) {
+        for (permission in Companion.REQUIRED_PERMISSIONS) {
             if (ContextCompat.checkSelfPermission(
                     this, permission
                 ) != PackageManager.PERMISSION_GRANTED
@@ -121,7 +118,11 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
 // Bind use cases to lifecycle
         CameraX.bindToLifecycle(this, preview)
     }
-}
 
-//TODO There should be a timer in this activity that displays how much time is left in the recording.
-// Once the recording is complete, the activity should close by itself and return to the previous home screen with 2 tabs.
+    companion object {
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS =
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
+        private val TAG = RecordActivity::class.java
+    }
+}

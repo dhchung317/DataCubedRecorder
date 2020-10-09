@@ -21,6 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="16dp"
+        android:textColor="@color/colorAccent"
         tools:text="2:38"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
