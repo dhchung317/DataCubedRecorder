@@ -12,7 +12,7 @@ data class RecordingModel(
     @PrimaryKey
     val title: String,
     @ColumnInfo(name = "duration")
-    val duration: String,
+    val duration: Float,
     @ColumnInfo(name = "date")
     val date: String,
     @ColumnInfo(name = "image")

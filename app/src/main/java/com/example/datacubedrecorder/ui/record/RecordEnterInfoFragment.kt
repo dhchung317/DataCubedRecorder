@@ -17,7 +17,6 @@ import com.google.android.material.slider.Slider
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.floor
-import kotlin.math.roundToInt
 
 class RecordEnterInfoFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
@@ -30,7 +29,6 @@ class RecordEnterInfoFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        initViews()
     }
 
     override fun onCreateView(
@@ -41,17 +39,20 @@ class RecordEnterInfoFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_record_enter_info, container, false);
     }
 
-    private fun initViews() {
-        titleEditText = requireActivity().findViewById(R.id.enter_title_editText)
-        slider = requireActivity().findViewById(R.id.slider)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews(view)
+    }
+    private fun initViews(view: View) {
+        titleEditText = view.findViewById(R.id.enter_title_editText)
+        slider = view.findViewById(R.id.slider)
         setupSlider()
-        displayTime = requireActivity().findViewById(R.id.display_time_textView)
-        recordButton = requireActivity().findViewById(R.id.record_button)
+        displayTime = view.findViewById(R.id.display_time_textView)
+        recordButton = view.findViewById(R.id.record_button)
         recordButton.setOnClickListener { startRecording() }
     }
 
     private fun startRecording() {
-        //TODO check permissions when clicking record
         val intent = Intent(activity, RecordActivity::class.java)
         intent.putExtra("recording_data", getRecordingInfo())
         startActivity(intent)
@@ -59,7 +60,7 @@ class RecordEnterInfoFragment : Fragment() {
 
     private fun getRecordingInfo(): RecordingModel {
         val title = titleEditText.text.toString()
-        val duration = displayTime.text.toString()
+        val duration = slider.value
         return RecordingModel(
             title = title,
             duration = duration,
@@ -75,7 +76,7 @@ class RecordEnterInfoFragment : Fragment() {
 
     private fun setupSlider() {
         slider.setLabelFormatter { value ->
-            return@setLabelFormatter "${value.roundToInt()}"
+            return@setLabelFormatter formatDuration(value)
         }
 
         slider.addOnChangeListener { slider, value, fromUser ->
@@ -91,7 +92,3 @@ class RecordEnterInfoFragment : Fragment() {
     }
 
 }
-
-//TODO In this tab user should be able to enter the name of the recording in a text field
-// and enter the duration of recording using a slider with a minimum of 15 seconds and a maximum of 3 minutes.
-// On pressing the record button a new activity should open which starts recording the video of the user for that set duration.
