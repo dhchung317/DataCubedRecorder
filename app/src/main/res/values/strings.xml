@@ -6,4 +6,7 @@
     <string name="min_time">0:00</string>
     <string name="max_time">3:00</string>
     <string name="slider_title">Duration</string>
+    <string name="placeholder_title_text">title</string>
+    <string name="placeholder_duration_text">2:38</string>
+    <string name="placeholder_date_text">10-02-2020</string>
 </resources>
