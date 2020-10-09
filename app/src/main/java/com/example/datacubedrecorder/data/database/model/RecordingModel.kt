@@ -27,9 +27,9 @@ data class RecordingModel(
     @PrimaryKey
     val title: String,
     @ColumnInfo(name = "duration")
-    val duration: Float,
+    var duration: Float,
     @ColumnInfo(name = "date")
     val date: String,
     @ColumnInfo(name = "image")
-    val image: String?
+    var image: String?
 ) : Parcelable
