@@ -21,6 +21,14 @@ import com.example.datacubedrecorder.data.database.model.RecordingModel
 import com.example.datacubedrecorder.ui.MainViewModel
 import kotlin.math.floor
 
+/**
+ * This activity holds a TextureView and uses CameraX to preview camera, and record/save video
+ *
+ * Permissions are handled as soon as the camera wants access in this activity
+ *
+ * implements LifecycleOwner to bind CameraX
+ */
+
 //TODO look into factoring out permissions into manager class
 class RecordActivity : AppCompatActivity(), LifecycleOwner {
     private lateinit var viewModel: MainViewModel
@@ -77,7 +85,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
-        if (requestCode == Companion.REQUEST_CODE_PERMISSIONS) {
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
                 textureView.post { startCamera() }
             } else {
@@ -128,3 +136,4 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
         private val TAG = RecordActivity::class.java
     }
 }
+//TODO screen transition when starting this activity needs to be smoother - no white screen/ global splash/loading screen

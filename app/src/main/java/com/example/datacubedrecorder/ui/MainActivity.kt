@@ -8,6 +8,13 @@ import com.example.datacubedrecorder.R
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
+/**
+ * MainActivity that contains a tabLayout/viewPager which navigates to two fragments.
+ *
+ * [RecordEnterInfoFragment] shows a form to enter recording info and start recording,
+ * [SavedRecordingsFragment] displays saved recordings in a recyclerView
+ *
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var tabLayout: TabLayout
@@ -43,4 +50,5 @@ class MainActivity : AppCompatActivity() {
 //TODO extensibility
 //TODO prevent memory leaks
 //TODO rotation/screen sizes
+//TODO progress dialog?
 

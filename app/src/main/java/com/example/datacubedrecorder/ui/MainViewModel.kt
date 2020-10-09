@@ -9,6 +9,11 @@ import com.example.datacubedrecorder.data.MainRepositoryImpl
 import com.example.datacubedrecorder.data.database.MainDatabase
 import com.example.datacubedrecorder.data.database.model.RecordingModel
 
+/**
+ * Shared viewModel across the entire application scope
+ *
+ * Initializes along with DAO object which then retrieves recordings from Room database
+ */
 class MainViewModel(application: Application): AndroidViewModel(application) {
     private val repository: MainRepository
     val recordings: LiveData<List<RecordingModel>>

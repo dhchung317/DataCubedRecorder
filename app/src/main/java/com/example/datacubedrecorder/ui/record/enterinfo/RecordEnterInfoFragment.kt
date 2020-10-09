@@ -19,6 +19,11 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.floor
 
+/**
+ * This fragment holds the form to output the data needed to start and save a recording
+ *
+ * The 'start recording' button will send a bundle of data to be deciphered in the triggered [RecordActivity]
+ */
 class RecordEnterInfoFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
 
