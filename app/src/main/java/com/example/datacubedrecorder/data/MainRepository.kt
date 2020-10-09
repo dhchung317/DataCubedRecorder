@@ -1,4 +1,4 @@
 package com.example.datacubedrecorder.data
 
-class MainRepository {
+interface MainRepository {
 }
