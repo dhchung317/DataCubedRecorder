@@ -30,6 +30,7 @@ abstract class MainDatabase : RoomDatabase() {
         private fun buildDatabaseInstance(context: Context) =
             Room.databaseBuilder(context, MainDatabase::class.java, DATABASE_NAME)
                 .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
                 .build()
     }
 }
