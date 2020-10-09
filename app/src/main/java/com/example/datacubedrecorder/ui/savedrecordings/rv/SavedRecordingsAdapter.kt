@@ -1,18 +1,22 @@
 package com.example.datacubedrecorder.ui.savedrecordings.rv
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.datacubedrecorder.R
+import com.example.datacubedrecorder.data.database.model.RecordingModel
 
-class SavedRecordingsAdapter: RecyclerView.Adapter<SavedRecordingsViewHolder>() {
+class SavedRecordingsAdapter(private val recordingModels: List<RecordingModel>): RecyclerView.Adapter<SavedRecordingsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedRecordingsViewHolder {
-        TODO("Not yet implemented")
+        return SavedRecordingsViewHolder(
+            itemView = LayoutInflater.from(parent.context).inflate(R.layout.recording_itemview, parent, false))
     }
 
     override fun onBindViewHolder(holder: SavedRecordingsViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.onBind(recordingModels[position])
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return recordingModels.size
     }
 }

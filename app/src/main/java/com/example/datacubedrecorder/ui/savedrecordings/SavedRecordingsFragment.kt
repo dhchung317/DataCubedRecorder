@@ -27,8 +27,9 @@ class SavedRecordingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         text = view.findViewById(R.id.test)
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
         viewModel.recordings.observe(viewLifecycleOwner, Observer {
-            Log.d("viewcreated", it[0].date)
+
         } )
     }
 
