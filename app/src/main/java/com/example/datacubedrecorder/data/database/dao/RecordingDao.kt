@@ -10,13 +10,10 @@ import com.example.datacubedrecorder.data.database.model.RecordingModel
 interface RecordingDao {
 
     @Query("SELECT * FROM recordings")
-    suspend fun getAllRecordings(): List<RecordingModel>
+    fun getAllRecordings(): List<RecordingModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(recording: RecordingModel): Long
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(vararg recordings: RecordingModel): List<Long>
+    fun insert(recording: RecordingModel): Long
 
     @Query("DELETE FROM recordings")
     fun deleteAll()
