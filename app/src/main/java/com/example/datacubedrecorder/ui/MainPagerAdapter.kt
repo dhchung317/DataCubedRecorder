@@ -7,6 +7,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.datacubedrecorder.ui.record.enterinfo.RecordEnterInfoFragment
 import com.example.datacubedrecorder.ui.savedrecordings.SavedRecordingsFragment
 
+/**
+ * Adapter for the viewPager which is controlled by clicking the tabs in the tabLayout
+ *
+ * Default screen shows the form to enter recording file info
+ */
 class MainPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun createFragment(position: Int): Fragment {

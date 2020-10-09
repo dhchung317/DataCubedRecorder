@@ -16,6 +16,9 @@ interface RecordingDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(recording: RecordingModel): Long
 
+    @Query("DELETE FROM recordings WHERE title = :title")
+    fun deleteByTitle(title: String)
+
     @Query("DELETE FROM recordings")
     fun deleteAll()
 }

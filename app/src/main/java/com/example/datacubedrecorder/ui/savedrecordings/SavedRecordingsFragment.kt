@@ -15,10 +15,11 @@ import com.example.datacubedrecorder.R
 import com.example.datacubedrecorder.ui.MainViewModel
 import com.example.datacubedrecorder.ui.savedrecordings.rv.SavedRecordingsAdapter
 
+/**
+ * This fragment observes viewModel-liveData to update a gridded recyclerView with data saved in a Room database
+ */
 class SavedRecordingsFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
-    lateinit var text: TextView
-    //TODO rv to display recordings
     private lateinit var recordingsRecyclerView: RecyclerView
     private lateinit var adapter: SavedRecordingsAdapter
 
@@ -28,10 +29,8 @@ class SavedRecordingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        text = view.findViewById(R.id.test)
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         initRecyclerView(view)
-
         viewModel.recordings.observe(viewLifecycleOwner, {
             adapter.update(it)
         })
@@ -42,6 +41,8 @@ class SavedRecordingsFragment : Fragment() {
         recordingsRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
         adapter = SavedRecordingsAdapter(listOf())
         recordingsRecyclerView.adapter = adapter
-
     }
 }
+
+//TODO onclick items to play,
+//TODO long press to show menu for deletion
