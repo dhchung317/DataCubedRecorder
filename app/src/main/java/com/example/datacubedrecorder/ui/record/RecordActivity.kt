@@ -43,13 +43,14 @@ class RecordActivity: AppCompatActivity() {
     fun startCounter() {
         val recordingInfo: RecordingModel = intent.getParcelableExtra("recording_data")
         counter = recordingInfo.duration.toInt()
-        object : CountDownTimer(50000, 1000) {
+        object : CountDownTimer((counter * 1000).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 timerTextView.text = formatDuration(counter)
                 counter--
             }
             override fun onFinish() {
-                //TODO back to home
+                //TODO save recoding info to database
+                finish()
             }
         }.start()
     }
