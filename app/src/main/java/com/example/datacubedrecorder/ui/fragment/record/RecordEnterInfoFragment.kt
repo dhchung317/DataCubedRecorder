@@ -21,7 +21,7 @@ class RecordEnterInfoFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        //TODO check permissions
+        //TODO check permissions when clicking record
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
     }
