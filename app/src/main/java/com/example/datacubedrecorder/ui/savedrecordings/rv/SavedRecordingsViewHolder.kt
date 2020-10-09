@@ -1,4 +1,4 @@
-package com.example.datacubedrecorder.ui.fragment.savedrecordings.rv
+package com.example.datacubedrecorder.ui.savedrecordings.rv
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

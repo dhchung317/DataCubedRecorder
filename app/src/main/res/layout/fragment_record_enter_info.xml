@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <EditText
-        android:id="@+id/title_editText"
+        android:id="@+id/enter_title_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_title"
@@ -49,13 +49,13 @@
         android:layout_height="wrap_content"
         android:valueFrom="0"
         android:valueTo="180"
-        app:layout_constraintTop_toBottomOf="@id/title_editText"
+        app:layout_constraintTop_toBottomOf="@id/enter_title_editText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/record_button"/>
 
     <TextView
-        android:id="@+id/time_textView"
+        android:id="@+id/display_time_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="36sp"
@@ -70,7 +70,7 @@
         android:id="@+id/record_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="START RECORDING"
+        android:text="@string/record_button_text"
         android:textSize="32sp"
         app:layout_constraintTop_toBottomOf="@id/slider"
         app:layout_constraintStart_toStartOf="parent"
