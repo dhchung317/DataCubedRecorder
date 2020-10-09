@@ -28,7 +28,7 @@ class RecordEnterInfoFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -55,6 +55,7 @@ class RecordEnterInfoFragment : Fragment() {
     private fun startRecording() {
         val intent = Intent(activity, RecordActivity::class.java)
         intent.putExtra("recording_data", getRecordingInfo())
+        viewModel.insertRecording(getRecordingInfo())
         startActivity(intent)
     }
 

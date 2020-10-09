@@ -1,5 +1,6 @@
 package com.example.datacubedrecorder.data.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -10,7 +11,7 @@ import com.example.datacubedrecorder.data.database.model.RecordingModel
 interface RecordingDao {
 
     @Query("SELECT * FROM recordings")
-    fun getAllRecordings(): List<RecordingModel>
+    fun getAllRecordings(): LiveData<List<RecordingModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(recording: RecordingModel): Long
