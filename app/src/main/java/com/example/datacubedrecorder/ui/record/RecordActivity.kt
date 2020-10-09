@@ -49,7 +49,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
             )
         }
     }
-
+//TODO utils
     private fun formatDuration(duration: Int): String {
         val minutes = floor(duration.toDouble() / 60).toInt()
         var seconds = duration - minutes * 60
