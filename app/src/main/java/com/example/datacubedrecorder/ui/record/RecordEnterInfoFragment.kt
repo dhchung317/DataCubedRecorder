@@ -59,7 +59,7 @@ class RecordEnterInfoFragment : Fragment() {
 
     private fun getRecordingInfo(): RecordingModel {
         val title = titleEditText.text.toString()
-        val duration = displayTime.text.toString()
+        val duration = slider.value
         return RecordingModel(
             title = title,
             duration = duration,
