@@ -50,12 +50,16 @@ class RecordEnterInfoFragment : Fragment() {
         setupSlider()
         displayTime = view.findViewById(R.id.display_time_textView)
         recordButton = view.findViewById(R.id.record_button)
-        recordButton.setOnClickListener { startRecording() }
+        recordButton.setOnClickListener {
+            //TODO check for duplicate id/ or date in database
+            startRecording()
+        }
     }
 
     private fun startRecording() {
         val intent = Intent(activity, RecordActivity::class.java)
         intent.putExtra("recording_data", getRecordingInfo())
+        //TODO recording should only automatically be entered upon completion of full scope of recording
         viewModel.insertRecording(getRecordingInfo())
         startActivity(intent)
     }

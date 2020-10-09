@@ -6,10 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.datacubedrecorder.R
 import com.example.datacubedrecorder.data.database.model.RecordingModel
 
-class SavedRecordingsAdapter(private val recordingModels: List<RecordingModel>): RecyclerView.Adapter<SavedRecordingsViewHolder>() {
+class SavedRecordingsAdapter(private var recordingModels: List<RecordingModel>) :
+    RecyclerView.Adapter<SavedRecordingsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedRecordingsViewHolder {
         return SavedRecordingsViewHolder(
-            itemView = LayoutInflater.from(parent.context).inflate(R.layout.recording_itemview, parent, false))
+            itemView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.recording_itemview, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: SavedRecordingsViewHolder, position: Int) {
@@ -18,5 +21,10 @@ class SavedRecordingsAdapter(private val recordingModels: List<RecordingModel>):
 
     override fun getItemCount(): Int {
         return recordingModels.size
+    }
+//TODO look into better update logic
+    fun update(recordings: List<RecordingModel>) {
+        recordingModels = recordings
+        notifyDataSetChanged()
     }
 }

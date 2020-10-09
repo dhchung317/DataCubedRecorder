@@ -67,6 +67,8 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
 
             override fun onFinish() {
                 //TODO save recoding info to database
+                //TODO if user cancels or leave recording, it should save whatever the current recording is and
+                // it should recalculate the duration info before saving
                 finish()
             }
         }.start()

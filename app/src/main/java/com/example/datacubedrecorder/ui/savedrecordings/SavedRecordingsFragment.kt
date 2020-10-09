@@ -9,15 +9,18 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.datacubedrecorder.R
 import com.example.datacubedrecorder.ui.MainViewModel
+import com.example.datacubedrecorder.ui.savedrecordings.rv.SavedRecordingsAdapter
 
 class SavedRecordingsFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     lateinit var text: TextView
     //TODO rv to display recordings
     private lateinit var recordingsRecyclerView: RecyclerView
+    private lateinit var adapter: SavedRecordingsAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_saved_recordings, container, false);
@@ -27,16 +30,18 @@ class SavedRecordingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         text = view.findViewById(R.id.test)
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        initRecyclerView(view)
 
-        viewModel.recordings.observe(viewLifecycleOwner, Observer {
-
-        } )
+        viewModel.recordings.observe(viewLifecycleOwner, {
+            adapter.update(it)
+        })
     }
 
-//    RecyclerView recyclerView = findViewById(R.id.rvNumbers);
-//    int numberOfColumns = 6;
-//    recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-//    adapter = new MyRecyclerViewAdapter(this, data);
-//    recyclerView.setAdapter(adapter);
+    private fun initRecyclerView(view: View){
+        recordingsRecyclerView = view.findViewById(R.id.recordings_recyclerview)
+        recordingsRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+        adapter = SavedRecordingsAdapter(listOf())
+        recordingsRecyclerView.adapter = adapter
 
+    }
 }
