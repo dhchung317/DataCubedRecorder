@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.datacubedrecorder.ui.fragment.record.RecordEnterInfoFragment
-import com.example.datacubedrecorder.ui.fragment.savedrecordings.SavedRecordingsFragment
+import com.example.datacubedrecorder.ui.record.RecordEnterInfoFragment
+import com.example.datacubedrecorder.ui.savedrecordings.SavedRecordingsFragment
 
 class MainPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {

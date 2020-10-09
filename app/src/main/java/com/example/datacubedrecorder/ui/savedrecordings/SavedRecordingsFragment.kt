@@ -1,4 +1,4 @@
-package com.example.datacubedrecorder.ui.fragment.savedrecordings
+package com.example.datacubedrecorder.ui.savedrecordings
 
 import android.os.Bundle
 import android.view.LayoutInflater
