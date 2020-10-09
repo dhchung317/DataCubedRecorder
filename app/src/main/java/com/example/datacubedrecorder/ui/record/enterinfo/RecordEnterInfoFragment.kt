@@ -1,4 +1,4 @@
-package com.example.datacubedrecorder.ui.record
+package com.example.datacubedrecorder.ui.record.enterinfo
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.datacubedrecorder.R
 import com.example.datacubedrecorder.data.database.model.RecordingModel
 import com.example.datacubedrecorder.ui.MainViewModel
+import com.example.datacubedrecorder.ui.record.RecordActivity
 import com.google.android.material.slider.Slider
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -49,12 +50,16 @@ class RecordEnterInfoFragment : Fragment() {
         setupSlider()
         displayTime = view.findViewById(R.id.display_time_textView)
         recordButton = view.findViewById(R.id.record_button)
-        recordButton.setOnClickListener { startRecording() }
+        recordButton.setOnClickListener {
+            //TODO check for duplicate id/ or date in database
+            startRecording()
+        }
     }
 
     private fun startRecording() {
         val intent = Intent(activity, RecordActivity::class.java)
         intent.putExtra("recording_data", getRecordingInfo())
+        //TODO recording should only automatically be entered upon completion of full scope of recording
         viewModel.insertRecording(getRecordingInfo())
         startActivity(intent)
     }
@@ -84,11 +89,10 @@ class RecordEnterInfoFragment : Fragment() {
             displayTime.text = formatDuration(value)
         }
     }
-
+//TODO utils class
     private fun formatDuration(duration: Float): String {
         val minutes = floor(duration / 60).toInt()
         var seconds = duration.toInt() - minutes * 60
-
         return if (seconds >= 10) "${minutes}:${seconds}" else "${minutes}:0${seconds}"
     }
 
