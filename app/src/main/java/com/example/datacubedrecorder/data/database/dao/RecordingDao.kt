@@ -10,7 +10,7 @@ import com.example.datacubedrecorder.data.database.model.RecordingModel
 interface RecordingDao {
 
     @Query("SELECT * FROM recordings")
-    suspend fun getAllRecordings(category: String): List<RecordingModel>
+    suspend fun getAllRecordings(): List<RecordingModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(recording: RecordingModel): Long

@@ -11,13 +11,18 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.datacubedrecorder.R
+import com.example.datacubedrecorder.data.database.model.RecordingModel
 import com.example.datacubedrecorder.ui.MainViewModel
 import com.google.android.material.slider.Slider
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.math.floor
+import kotlin.math.roundToInt
 
 class RecordEnterInfoFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
 
-    private lateinit var title: EditText
+    private lateinit var titleEditText: EditText
     private lateinit var slider: Slider
     private lateinit var displayTime: TextView
     private lateinit var recordButton: Button
@@ -37,8 +42,9 @@ class RecordEnterInfoFragment : Fragment() {
     }
 
     private fun initViews() {
-        title = requireActivity().findViewById(R.id.enter_title_editText)
+        titleEditText = requireActivity().findViewById(R.id.enter_title_editText)
         slider = requireActivity().findViewById(R.id.slider)
+        setupSlider()
         displayTime = requireActivity().findViewById(R.id.display_time_textView)
         recordButton = requireActivity().findViewById(R.id.record_button)
         recordButton.setOnClickListener { startRecording() }
@@ -46,28 +52,44 @@ class RecordEnterInfoFragment : Fragment() {
 
     private fun startRecording() {
         //TODO check permissions when clicking record
-        startActivity(Intent(activity, RecordActivity::class.java))
+        val intent = Intent(activity, RecordActivity::class.java)
+        intent.putExtra("recording_data", getRecordingInfo())
+        startActivity(intent)
     }
 
+    private fun getRecordingInfo(): RecordingModel {
+        val title = titleEditText.text.toString()
+        val duration = displayTime.text.toString()
+        return RecordingModel(
+            title = title,
+            duration = duration,
+            date = getDate(),
+            null
+        )
+    }
 
-//    continuousSlider.setLabelFormatter { value: Float ->
-//        return@setLabelFormatter "$${value.roundToInt()}"
-//    }
+    private fun getDate(): String {
+        val formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm")
+        return LocalDateTime.now().format(formatter)
+    }
 
+    private fun setupSlider() {
+        slider.setLabelFormatter { value ->
+            return@setLabelFormatter "${value.roundToInt()}"
+        }
 
-//    slider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
-//        override fun onStartTrackingTouch(slider: Slider) {
-//            // Responds to when slider's touch event is being started
-//        }
-//
-//        override fun onStopTrackingTouch(slider: Slider) {
-//            // Responds to when slider's touch event is being stopped
-//        }
-//    })
-//
-//    slider.addOnChangeListener { slider, value, fromUser ->
-//        // Responds to when slider's value is changed
-//    }
+        slider.addOnChangeListener { slider, value, fromUser ->
+            displayTime.text = formatDuration(value)
+        }
+    }
+
+    private fun formatDuration(duration: Float): String {
+        val minutes = floor(duration / 60).toInt()
+        var seconds = duration.toInt() - minutes * 60
+
+        return if (seconds >= 10) "${minutes}:${seconds}" else "${minutes}:0${seconds}"
+    }
+
 }
 
 //TODO In this tab user should be able to enter the name of the recording in a text field
