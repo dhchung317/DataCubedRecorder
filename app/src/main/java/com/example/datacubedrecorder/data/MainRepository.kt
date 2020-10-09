@@ -10,6 +10,8 @@ interface MainRepository {
 
     fun getAllRecordings(): LiveData<List<RecordingModel>>
 
+    fun hasItem(title: String): Boolean
+
     fun insertRecording(recording: RecordingModel): Long
 
     fun deleteRecordingByTitle(title: String)

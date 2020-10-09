@@ -30,6 +30,7 @@ import kotlin.math.floor
  */
 
 //TODO look into factoring out permissions into manager class
+//TODO create constant intent key variable
 class RecordActivity : AppCompatActivity(), LifecycleOwner {
     private lateinit var viewModel: MainViewModel
 
@@ -37,6 +38,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
     private lateinit var textureView: TextureView
 
     var counter = 0
+    private lateinit var recordingInfo: RecordingModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +49,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
 
         // Request camera permissions
         if (allPermissionsGranted()) {
+            recordingInfo = intent.getParcelableExtra("recording_data")
             textureView.post {
                 startCamera()
                 startCounter()
@@ -55,9 +58,11 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
             ActivityCompat.requestPermissions(
                 this, Companion.REQUIRED_PERMISSIONS, Companion.REQUEST_CODE_PERMISSIONS
             )
+            finish()
         }
     }
-//TODO utils
+
+    //TODO utils
     private fun formatDuration(duration: Int): String {
         val minutes = floor(duration.toDouble() / 60).toInt()
         var seconds = duration - minutes * 60
@@ -115,7 +120,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
     private fun startCamera() {
         // Create configuration object for the viewfinder use case
         val previewConfig = PreviewConfig.Builder().build()
-// Build the viewfinder use case
+        // Build the viewfinder use case
         val preview = Preview(previewConfig)
 
         preview.setOnPreviewOutputUpdateListener {
@@ -125,8 +130,21 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
             parent.addView(textureView, 0)
         }
 
-// Bind use cases to lifecycle
+        // Bind use cases to lifecycle
         CameraX.bindToLifecycle(this, preview)
+    }
+
+    /**
+     * if the recording is cancelled, or the user presses back, the recording will be saved as is
+     */
+    override fun onDestroy() {
+        if (this::recordingInfo.isInitialized) {
+            if (counter != 0) {
+                recordingInfo.duration = recordingInfo.duration - counter
+            }
+            viewModel.insertRecording(recordingInfo)
+        }
+        super.onDestroy()
     }
 
     companion object {

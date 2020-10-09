@@ -14,21 +14,25 @@ import com.example.datacubedrecorder.data.database.model.RecordingModel
  *
  * Initializes along with DAO object which then retrieves recordings from Room database
  */
-class MainViewModel(application: Application): AndroidViewModel(application) {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: MainRepository
     val recordings: LiveData<List<RecordingModel>>
 
-    init{
+    init {
         val recordingDao = MainDatabase.getDatabaseInstance(application).recordingDao()
         repository = MainRepositoryImpl(recordingDao)
         recordings = repository.getAllRecordings()
     }
 
-    fun insertRecording(recordingModel: RecordingModel){
+    fun insertRecording(recordingModel: RecordingModel) {
         repository.insertRecording(recordingModel)
     }
 
-    fun deleteByTitle(title: String){
+    fun deleteByTitle(title: String) {
         repository.deleteRecordingByTitle(title)
+    }
+
+    fun checkTitle(title: String): Boolean {
+        return repository.hasItem(title)
     }
 }

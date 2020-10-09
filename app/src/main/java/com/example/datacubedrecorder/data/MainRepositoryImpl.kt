@@ -13,6 +13,10 @@ class MainRepositoryImpl(private val recordingDao: RecordingDao): MainRepository
         return recordingDao.getAllRecordings()
     }
 
+    override fun hasItem(title: String): Boolean {
+        return recordingDao.hasItem(title)
+    }
+
     override fun insertRecording(recording: RecordingModel): Long {
         return recordingDao.insert(recording)
     }

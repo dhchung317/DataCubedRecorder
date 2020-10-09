@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.datacubedrecorder.R
@@ -56,21 +57,29 @@ class RecordEnterInfoFragment : Fragment() {
         displayTime = view.findViewById(R.id.display_time_textView)
         recordButton = view.findViewById(R.id.record_button)
         recordButton.setOnClickListener {
-            //TODO check for duplicate id/ or date in database
-            startRecording()
+            if(viewModel.checkTitle(titleEditText.text.toString())){
+                //TODO look into other way to notify besides toast
+                Toast.makeText(
+                    requireContext(),
+                    "Title exists! Enter a different title",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else{
+                startRecording()
+            }
         }
     }
 
     private fun startRecording() {
         val intent = Intent(activity, RecordActivity::class.java)
         intent.putExtra("recording_data", getRecordingInfo())
-        //TODO recording should only automatically be entered upon completion of full scope of recording
         viewModel.insertRecording(getRecordingInfo())
+        titleEditText.text.clear()
         startActivity(intent)
     }
 
     private fun getRecordingInfo(): RecordingModel {
-        val title = titleEditText.text.toString()
+        val title = titleEditText.text.toString().trim()
         val duration = slider.value
         return RecordingModel(
             title = title,
@@ -102,3 +111,5 @@ class RecordEnterInfoFragment : Fragment() {
     }
 
 }
+
+//TODO prevent keyboard from pushing up views

@@ -13,6 +13,9 @@ interface RecordingDao {
     @Query("SELECT * FROM recordings")
     fun getAllRecordings(): LiveData<List<RecordingModel>>
 
+    @Query("SELECT EXISTS(SELECT * FROM recordings WHERE title = :title)")
+    fun hasItem(title: String): Boolean
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(recording: RecordingModel): Long
 
