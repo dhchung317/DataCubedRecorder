@@ -24,17 +24,17 @@
             app:tabGravity="fill"
             app:tabMode="fixed"
             app:tabTextColor="@color/colorAccent"
-            app:tabSelectedTextColor="@color/colorTextOnDark">
+            app:tabSelectedTextColor="@android:color/white">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/camera_tab_text"/>
+                tools:text="@string/camera_tab_text"/>
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/library_tab_text"/>
+                tools:text="@string/library_tab_text"/>
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -75,7 +75,7 @@ class RecordEnterInfoFragment : Fragment() {
 
     private fun setupSlider() {
         slider.setLabelFormatter { value ->
-            return@setLabelFormatter "${value.roundToInt()}"
+            return@setLabelFormatter formatDuration(value)
         }
 
         slider.addOnChangeListener { slider, value, fromUser ->

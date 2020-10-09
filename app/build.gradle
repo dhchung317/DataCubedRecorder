@@ -61,4 +61,9 @@ dependencies {
 
     //Material
     implementation 'com.google.android.material:material:1.2.1'
+
+    //CameraX
+    def cameraX_version = "1.0.0-alpha01"
+    implementation "androidx.camera:camera-core:${cameraX_version}"
+    implementation "androidx.camera:camera-camera2:${cameraX_version}"
 }
