@@ -19,7 +19,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val recordings: LiveData<List<RecordingModel>>
 
     init {
-        val recordingDao = MainDatabase.getDatabaseInstance(application).recordingDao()
+        val recordingDao = MainDatabase.getDatabaseInstance(application)!!.recordingDao()
         repository = MainRepositoryImpl(recordingDao)
         recordings = repository.getAllRecordings()
     }
