@@ -1,17 +1,17 @@
 package com.example.datacubedrecorder.ui.record
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.TextureView
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.CameraX
-import androidx.camera.core.Preview
-import androidx.camera.core.PreviewConfig
+import androidx.camera.core.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.datacubedrecorder.R
 import com.example.datacubedrecorder.data.database.model.RecordingModel
 import com.example.datacubedrecorder.ui.MainViewModel
+import java.io.File
 import kotlin.math.floor
 
 /**
@@ -36,6 +37,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
 
     private lateinit var timerTextView: TextView
     private lateinit var textureView: TextureView
+    private lateinit var videoCapture: VideoCapture
 
     var counter = 0
     private lateinit var recordingInfo: RecordingModel
@@ -53,6 +55,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
             textureView.post {
                 startCamera()
                 startCounter()
+                startRecording()
             }
         } else {
             ActivityCompat.requestPermissions(
@@ -79,6 +82,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
             }
 
             override fun onFinish() {
+                stopRecording()
                 finish()
             }
         }.start()
@@ -114,6 +118,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
         return true
     }
 
+    @SuppressLint("RestrictedApi")
     private fun startCamera() {
         // Create configuration object for the viewfinder use case
         val previewConfig = PreviewConfig.Builder().build()
@@ -127,21 +132,57 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
             parent.addView(textureView, 0)
         }
 
+        val videoCaptureConfig = VideoCaptureConfig.Builder().apply {
+            setTargetResolution(
+                android.util.Size(800,600)
+            )
+            setTargetRotation(textureView.display.rotation)
+        }.build()
+
+        videoCapture = VideoCapture(videoCaptureConfig)
         // Bind use cases to lifecycle
-        CameraX.bindToLifecycle(this, preview)
+        CameraX.bindToLifecycle(this, preview,videoCapture)
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun startRecording(){
+        val file = File(externalMediaDirs.first(),
+        "${recordingInfo.title}.mp4")
+
+        videoCapture.startRecording(file, object: VideoCapture.OnVideoSavedListener {
+            override fun onVideoSaved(file: File?) {
+                Log.d("path", file?.absolutePath)
+                Log.d("path", file?.path)
+            }
+
+            override fun onError(
+                useCaseError: VideoCapture.UseCaseError?,
+                message: String?,
+                cause: Throwable?
+            ) {
+                Log.d("error", "Video Error: $message")
+            }
+        })
     }
 
     /**
      * if the recording is cancelled, or the user presses back, the recording will be saved as is
      */
-    override fun onDestroy() {
+    override fun onBackPressed() {
         if (this::recordingInfo.isInitialized) {
             if (counter != 0) {
                 recordingInfo.duration = recordingInfo.duration - counter
             }
             viewModel.insertRecording(recordingInfo)
+
         }
-        super.onDestroy()
+        stopRecording()
+        super.onBackPressed()
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun stopRecording() {
+        videoCapture.stopRecording()
     }
 
     companion object {
