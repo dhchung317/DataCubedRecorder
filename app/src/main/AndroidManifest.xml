@@ -26,6 +26,8 @@
         </activity>
         <activity android:name=".ui.record.RecordActivity">
         </activity>
+        <activity android:name=".ui.play.PlayActivity">
+        </activity>
     </application>
 
 </manifest>

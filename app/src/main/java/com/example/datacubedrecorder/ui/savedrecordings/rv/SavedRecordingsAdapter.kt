@@ -7,7 +7,7 @@ import com.example.datacubedrecorder.R
 import com.example.datacubedrecorder.data.database.model.RecordingModel
 import kotlinx.android.synthetic.main.recording_itemview.view.*
 
-class SavedRecordingsAdapter(private val deleteListener:(RecordingModel) -> Unit) :
+class SavedRecordingsAdapter(private val deleteListener:(RecordingModel) -> Unit, private val playListener:(RecordingModel) -> Unit) :
     RecyclerView.Adapter<SavedRecordingsViewHolder>() {
     private var recordingModels: List<RecordingModel> = listOf()
 
@@ -19,7 +19,7 @@ class SavedRecordingsAdapter(private val deleteListener:(RecordingModel) -> Unit
     }
 
     override fun onBindViewHolder(holder: SavedRecordingsViewHolder, position: Int) {
-        holder.onBind(recordingModels[position], deleteListener)
+        holder.onBind(recordingModels[position], deleteListener, playListener)
 //        holder.itemView.delete_item_button.setOnClickListener{deleteListener(recordingModels[position])}
     }
 

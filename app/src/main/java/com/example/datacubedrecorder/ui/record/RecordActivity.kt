@@ -151,7 +151,9 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
 
         videoCapture.startRecording(file, object: VideoCapture.OnVideoSavedListener {
             override fun onVideoSaved(file: File?) {
-                saveRecordingInfo(recordingInfo.title)
+                if (file != null) {
+                    saveRecordingInfo(file.path)
+                }
             }
 
             override fun onError(
