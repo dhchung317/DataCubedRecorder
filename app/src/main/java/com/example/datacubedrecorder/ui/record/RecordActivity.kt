@@ -151,8 +151,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
 
         videoCapture.startRecording(file, object: VideoCapture.OnVideoSavedListener {
             override fun onVideoSaved(file: File?) {
-                Log.d("path", file?.absolutePath)
-                Log.d("path", file?.path)
+                saveRecordingInfo(recordingInfo.title)
             }
 
             override fun onError(
@@ -169,13 +168,6 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
      * if the recording is cancelled, or the user presses back, the recording will be saved as is
      */
     override fun onBackPressed() {
-        if (this::recordingInfo.isInitialized) {
-            if (counter != 0) {
-                recordingInfo.duration = recordingInfo.duration - counter
-            }
-            viewModel.insertRecording(recordingInfo)
-
-        }
         stopRecording()
         super.onBackPressed()
     }
@@ -183,6 +175,16 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
     @SuppressLint("RestrictedApi")
     private fun stopRecording() {
         videoCapture.stopRecording()
+    }
+
+    private fun saveRecordingInfo(path: String){
+        if (this::recordingInfo.isInitialized) {
+            if (counter != 0) {
+                recordingInfo.duration = recordingInfo.duration - counter
+            }
+            recordingInfo.path = path
+            viewModel.insertRecording(recordingInfo)
+        }
     }
 
     companion object {

@@ -15,6 +15,7 @@ import com.example.datacubedrecorder.R
 import com.example.datacubedrecorder.data.database.model.RecordingModel
 import com.example.datacubedrecorder.ui.MainViewModel
 import com.example.datacubedrecorder.ui.savedrecordings.rv.SavedRecordingsAdapter
+import java.io.File
 
 /**
  * This fragment observes viewModel-liveData to update a gridded recyclerView with data saved in a Room database
@@ -50,8 +51,9 @@ class SavedRecordingsFragment : Fragment() {
 
     private val deleteListener: (RecordingModel) -> Unit = { it ->
         viewModel.deleteByTitle(it.title)
+        val file = File(it.path)
+        file.delete()
     }
 }
 
-//TODO onclick items to play,
-//TODO long press to show menu for deletion??
+//TODO onclick items to play
