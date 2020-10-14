@@ -43,8 +43,10 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
     private lateinit var textureView: TextureView
     private lateinit var videoCapture: VideoCapture
 
-    var counter: Float = 0f
+    private lateinit var timer: CountDownTimer
     private lateinit var recordingInfo: RecordingModel
+
+    private var counter: Float = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +66,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
     private fun startCounter() {
         val recordingInfo: RecordingModel = intent.getParcelableExtra(RECORDING_DATA_KEY)
         counter = recordingInfo.duration
-        object : CountDownTimer((counter * 1000).toLong(), 1000) {
+        timer = object : CountDownTimer((counter * 1000).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 timerTextView.text = counter.formatDuration()
                 counter--
@@ -183,6 +185,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
     @SuppressLint("RestrictedApi")
     private fun stopRecording() {
         videoCapture.stopRecording()
+        timer.cancel()
     }
 
     private fun saveRecordingInfo(path: String) {
