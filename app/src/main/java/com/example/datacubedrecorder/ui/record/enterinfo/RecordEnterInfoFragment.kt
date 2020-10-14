@@ -84,7 +84,6 @@ class RecordEnterInfoFragment : Fragment() {
             title = title,
             duration = duration,
             date = getDate(),
-            image = null,
             path = null
         )
     }

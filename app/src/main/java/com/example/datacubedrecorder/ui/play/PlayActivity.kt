@@ -40,7 +40,7 @@ class PlayActivity : AppCompatActivity() {
         }
 
         videoView.setOnPreparedListener { mp ->
-            mp.setOnSeekCompleteListener { mp -> mp.start() }
+            mp.setOnSeekCompleteListener { it.start() }
         }
 
         if (start > 0) {
@@ -48,8 +48,6 @@ class PlayActivity : AppCompatActivity() {
         }else{
             videoView.start()
         }
-//        videoView.pause()
-//        videoView.resume()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
