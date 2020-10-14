@@ -19,7 +19,6 @@ import com.example.datacubedrecorder.ui.record.RecordActivity
 import com.google.android.material.slider.Slider
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlin.math.floor
 
 /**
  * This fragment holds the form to output the data needed to start and save a recording
@@ -51,6 +50,7 @@ class RecordEnterInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
     }
+
     private fun initViews(view: View) {
         titleEditText = view.findViewById(R.id.enter_title_editText)
         slider = view.findViewById(R.id.slider)
@@ -58,13 +58,13 @@ class RecordEnterInfoFragment : Fragment() {
         displayTime = view.findViewById(R.id.display_time_textView)
         recordButton = view.findViewById(R.id.record_button)
         recordButton.setOnClickListener {
-            if(viewModel.checkTitle(titleEditText.text.toString())){
+            if (viewModel.checkTitle(titleEditText.text.toString())) {
                 Toast.makeText(
                     requireContext(),
                     "Title exists! Enter a different title",
                     Toast.LENGTH_SHORT
                 ).show()
-            }else{
+            } else {
                 startRecording()
             }
         }
