@@ -1,6 +1,5 @@
 package com.example.datacubedrecorder.data.database
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
@@ -17,20 +16,19 @@ abstract class MainDatabase : RoomDatabase() {
     companion object {
         private const val DATABASE_NAME = "data.db"
 
-        @Volatile
         private var databaseInstance: MainDatabase? = null
 
-        fun getDatabaseInstance(context: Context): MainDatabase =
-            databaseInstance ?: synchronized(this) {
-                databaseInstance ?: buildDatabaseInstance(context).also {
-                    databaseInstance = it
-                }
+        fun getDatabaseInstance(context: Context): MainDatabase? {
+            if (databaseInstance == null) {
+                databaseInstance =
+                    Room.databaseBuilder(context, MainDatabase::class.java, DATABASE_NAME)
+                        .fallbackToDestructiveMigration()
+                        .allowMainThreadQueries()
+                        .build()
             }
-
-        private fun buildDatabaseInstance(context: Context) =
-            Room.databaseBuilder(context, MainDatabase::class.java, DATABASE_NAME)
-                .fallbackToDestructiveMigration()
-                .allowMainThreadQueries()
-                .build()
+            return databaseInstance
+        }
     }
+
+
 }
