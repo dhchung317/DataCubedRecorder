@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.datacubedrecorder.R
+import com.example.datacubedrecorder.common.extensions.formatDuration
 import com.example.datacubedrecorder.data.database.model.RecordingModel
 import com.example.datacubedrecorder.ui.MainViewModel
 import com.example.datacubedrecorder.ui.record.RecordActivity
@@ -58,7 +59,6 @@ class RecordEnterInfoFragment : Fragment() {
         recordButton = view.findViewById(R.id.record_button)
         recordButton.setOnClickListener {
             if(viewModel.checkTitle(titleEditText.text.toString())){
-                //TODO look into other way to notify besides toast
                 Toast.makeText(
                     requireContext(),
                     "Title exists! Enter a different title",
@@ -72,7 +72,7 @@ class RecordEnterInfoFragment : Fragment() {
 
     private fun startRecording() {
         val intent = Intent(activity, RecordActivity::class.java)
-        intent.putExtra("recording_data", getRecordingInfo())
+        intent.putExtra(RECORDING_DATA_KEY, getRecordingInfo())
         titleEditText.text.clear()
         startActivity(intent)
     }
@@ -95,18 +95,14 @@ class RecordEnterInfoFragment : Fragment() {
 
     private fun setupSlider() {
         slider.setLabelFormatter { value ->
-            return@setLabelFormatter formatDuration(value)
+            return@setLabelFormatter value.formatDuration()
         }
-
         slider.addOnChangeListener { slider, value, fromUser ->
-            displayTime.text = formatDuration(value)
+            displayTime.text = value.formatDuration()
         }
     }
-//TODO utils class
-    private fun formatDuration(duration: Float): String {
-        val minutes = floor(duration / 60).toInt()
-        var seconds = duration.toInt() - minutes * 60
-        return if (seconds >= 10) "${minutes}:${seconds}" else "${minutes}:0${seconds}"
-    }
 
+    companion object {
+        const val RECORDING_DATA_KEY = "recording_data_key"
+    }
 }

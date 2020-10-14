@@ -46,9 +46,6 @@ class MainActivity : AppCompatActivity() {
         }.attach()
     }
 }
-
 //TODO extensibility
 //TODO prevent memory leaks
-//TODO rotation/screen sizes
-//TODO progress dialog?
 

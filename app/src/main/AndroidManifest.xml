@@ -24,7 +24,8 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".ui.record.RecordActivity">
+        <activity android:name=".ui.record.RecordActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden">
         </activity>
         <activity android:name=".ui.play.PlayActivity">
         </activity>

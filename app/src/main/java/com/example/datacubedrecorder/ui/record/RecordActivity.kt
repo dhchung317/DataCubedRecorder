@@ -2,10 +2,13 @@ package com.example.datacubedrecorder.ui.record
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.util.Size
 import android.view.TextureView
 import android.view.ViewGroup
 import android.widget.TextView
@@ -17,10 +20,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.example.datacubedrecorder.R
+import com.example.datacubedrecorder.common.extensions.formatDuration
 import com.example.datacubedrecorder.data.database.model.RecordingModel
 import com.example.datacubedrecorder.ui.MainViewModel
+import com.example.datacubedrecorder.ui.record.enterinfo.RecordEnterInfoFragment.Companion.RECORDING_DATA_KEY
 import java.io.File
-import kotlin.math.floor
+
 
 /**
  * This activity holds a TextureView and uses CameraX to preview camera, and record/save video
@@ -31,7 +36,6 @@ import kotlin.math.floor
  */
 
 //TODO look into factoring out permissions into manager class
-//TODO create constant intent key variable
 class RecordActivity : AppCompatActivity(), LifecycleOwner {
     private lateinit var viewModel: MainViewModel
 
@@ -39,45 +43,30 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
     private lateinit var textureView: TextureView
     private lateinit var videoCapture: VideoCapture
 
-    var counter = 0
+    var counter: Float = 0f
     private lateinit var recordingInfo: RecordingModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record)
+
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         timerTextView = findViewById(R.id.timer_text)
         textureView = findViewById(R.id.textureView)
 
-        // Request camera permissions
         if (allPermissionsGranted()) {
-            recordingInfo = intent.getParcelableExtra("recording_data")
-            textureView.post {
-                startCamera()
-                startCounter()
-                startRecording()
-            }
+            startWithPermissions()
         } else {
-            ActivityCompat.requestPermissions(
-                this, Companion.REQUIRED_PERMISSIONS, Companion.REQUEST_CODE_PERMISSIONS
-            )
-            finish()
+            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
     }
 
-    //TODO utils
-    private fun formatDuration(duration: Int): String {
-        val minutes = floor(duration.toDouble() / 60).toInt()
-        var seconds = duration - minutes * 60
-        return if (seconds >= 10) "${minutes}:${seconds}" else "${minutes}:0${seconds}"
-    }
-
     private fun startCounter() {
-        val recordingInfo: RecordingModel = intent.getParcelableExtra("recording_data")
-        counter = recordingInfo.duration.toInt()
+        val recordingInfo: RecordingModel = intent.getParcelableExtra(RECORDING_DATA_KEY)
+        counter = recordingInfo.duration
         object : CountDownTimer((counter * 1000).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                timerTextView.text = formatDuration(counter)
+                timerTextView.text = counter.formatDuration()
                 counter--
             }
 
@@ -95,7 +84,6 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
             if (allPermissionsGranted()) {
                 textureView.post { startCamera() }
             } else {
-                //TODO better handling of denied permissions
                 Toast.makeText(
                     this,
                     "Permissions not granted by the user.",
@@ -107,7 +95,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     private fun allPermissionsGranted(): Boolean {
-        for (permission in Companion.REQUIRED_PERMISSIONS) {
+        for (permission in REQUIRED_PERMISSIONS) {
             if (ContextCompat.checkSelfPermission(
                     this, permission
                 ) != PackageManager.PERMISSION_GRANTED
@@ -118,14 +106,30 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
         return true
     }
 
+    private fun startWithPermissions() {
+        recordingInfo = intent.getParcelableExtra(RECORDING_DATA_KEY)
+        textureView.post {
+            startCamera()
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
+            startCounter()
+            startRecording()
+        }
+
+    }
+
     @SuppressLint("RestrictedApi")
     private fun startCamera() {
-        // Create configuration object for the viewfinder use case
-        val previewConfig = PreviewConfig.Builder().build()
-        // Build the viewfinder use case
+        var size = Size(1280, 720)
+
+        val previewConfig = PreviewConfig.Builder().apply {
+            setTargetResolution(size)
+            setTargetRotation(textureView.display.rotation)
+        }.build()
+
         val preview = Preview(previewConfig)
 
         preview.setOnPreviewOutputUpdateListener {
+
             val parent = textureView.parent as ViewGroup
             parent.removeView(textureView)
             textureView.surfaceTexture = it.surfaceTexture
@@ -133,23 +137,25 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
         }
 
         val videoCaptureConfig = VideoCaptureConfig.Builder().apply {
-            setTargetResolution(
-                android.util.Size(800,600)
-            )
+            setTargetResolution(size)
             setTargetRotation(textureView.display.rotation)
         }.build()
 
         videoCapture = VideoCapture(videoCaptureConfig)
-        // Bind use cases to lifecycle
-        CameraX.bindToLifecycle(this, preview,videoCapture)
+
+        textureView.requestLayout()
+        textureView.invalidate()
+
+        CameraX.bindToLifecycle(this, preview, videoCapture)
     }
 
     @SuppressLint("RestrictedApi")
-    private fun startRecording(){
-        val file = File(externalMediaDirs.first(),
-        "${recordingInfo.title}.mp4")
-
-        videoCapture.startRecording(file, object: VideoCapture.OnVideoSavedListener {
+    private fun startRecording() {
+        val file = File(
+            externalMediaDirs.first(),
+            "${recordingInfo.title}.mp4"
+        )
+        videoCapture.startRecording(file, object : VideoCapture.OnVideoSavedListener {
             override fun onVideoSaved(file: File?) {
                 if (file != null) {
                     saveRecordingInfo(file.path)
@@ -179,9 +185,9 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
         videoCapture.stopRecording()
     }
 
-    private fun saveRecordingInfo(path: String){
+    private fun saveRecordingInfo(path: String) {
         if (this::recordingInfo.isInitialized) {
-            if (counter != 0) {
+            if (counter != 0f) {
                 recordingInfo.duration = recordingInfo.duration - counter
             }
             recordingInfo.path = path
@@ -193,7 +199,6 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS =
             arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
-        private val TAG = RecordActivity::class.java
     }
 }
 //TODO screen transition when starting this activity needs to be smoother - no white screen/ global splash/loading screen

@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 /**
  * data class to hold information entered on [RecordEnterInfoFragment]
  *
- * @param title is the key, for now and //TODO will be checked against new entries
+ * @param title is the key
  *
  * @param duration holds the float data from the slider, representing seconds between 0 and 180,
  * and will need to be formatted to display minutes and seconds

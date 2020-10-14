@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.datacubedrecorder.R
+import com.example.datacubedrecorder.ui.savedrecordings.SavedRecordingsFragment.Companion.VIDEO_PATH_KEY
 
 
 class PlayActivity : AppCompatActivity() {
@@ -25,7 +26,7 @@ class PlayActivity : AppCompatActivity() {
         playButton = findViewById(R.id.play)
         videoView = findViewById(R.id.videoView)
 
-        val uri: Uri = Uri.parse(intent.getStringExtra("video_path"))
+        val uri: Uri = Uri.parse(intent.getStringExtra(VIDEO_PATH_KEY))
         videoView.setVideoURI(uri)
 
         playButton.setOnClickListener {
