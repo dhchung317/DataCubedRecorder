@@ -1,7 +1,7 @@
 package com.example.datacubedrecorder
 
 import com.example.datacubedrecorder.common.extensions.formatDuration
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class FloatExtensionsTest {
@@ -13,3 +13,4 @@ class FloatExtensionsTest {
         assertEquals(expected, actual)
     }
 }
+//TODO other tests
