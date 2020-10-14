@@ -45,7 +45,7 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
     private lateinit var timer: CountDownTimer
     private lateinit var recordingInfo: RecordingModel
 
-    private var counter: Float = 0f
+    private var counter: Float = 0.0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,8 +67,8 @@ class RecordActivity : AppCompatActivity(), LifecycleOwner {
         counter = recordingInfo.duration
         timer = object : CountDownTimer((counter * 1000).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                timerTextView.text = counter.formatDuration()
                 counter--
+                timerTextView.text = counter.formatDuration()
             }
 
             override fun onFinish() {

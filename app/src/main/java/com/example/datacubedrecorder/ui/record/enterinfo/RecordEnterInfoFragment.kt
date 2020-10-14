@@ -64,6 +64,13 @@ class RecordEnterInfoFragment : Fragment() {
                     "Title exists! Enter a different title",
                     Toast.LENGTH_SHORT
                 ).show()
+            } else if (slider.value < 1) {
+                Toast.makeText(
+                    requireContext(),
+                    "Duration must be longer than 0 seconds!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
             } else {
                 startRecording()
             }
