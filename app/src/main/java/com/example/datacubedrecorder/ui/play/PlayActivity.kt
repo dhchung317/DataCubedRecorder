@@ -46,7 +46,7 @@ class PlayActivity : AppCompatActivity() {
 
         if (start > 0) {
             videoView.seekTo(start)
-        }else{
+        } else {
             videoView.start()
         }
     }

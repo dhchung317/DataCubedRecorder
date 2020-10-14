@@ -7,7 +7,7 @@ import com.example.datacubedrecorder.data.database.model.RecordingModel
 /**
  * Implementation class of [MainRepository] that uses [RecordingDao] to retrieve and save recordings
  */
-class MainRepositoryImpl(private val recordingDao: RecordingDao): MainRepository {
+class MainRepositoryImpl(private val recordingDao: RecordingDao) : MainRepository {
 
     override fun getAllRecordings(): LiveData<List<RecordingModel>> {
         return recordingDao.getAllRecordings()

@@ -2,13 +2,10 @@ package com.example.datacubedrecorder.ui.savedrecordings
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -57,9 +54,9 @@ class SavedRecordingsFragment : Fragment() {
         file.delete()
     }
 
-    private val playVideoListener: (RecordingModel) -> Unit = {it ->
+    private val playVideoListener: (RecordingModel) -> Unit = { it ->
         val intent = Intent(activity, PlayActivity::class.java)
-        intent.putExtra(VIDEO_PATH_KEY,it.path)
+        intent.putExtra(VIDEO_PATH_KEY, it.path)
         startActivity(intent)
     }
 

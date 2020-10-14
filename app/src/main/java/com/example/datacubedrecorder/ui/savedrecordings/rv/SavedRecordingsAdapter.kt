@@ -7,9 +7,11 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.datacubedrecorder.R
 import com.example.datacubedrecorder.data.database.model.RecordingModel
-import kotlinx.android.synthetic.main.recording_itemview.view.*
 
-class SavedRecordingsAdapter(private val deleteListener:(RecordingModel) -> Unit, private val playListener:(RecordingModel) -> Unit) :
+class SavedRecordingsAdapter(
+    private val deleteListener: (RecordingModel) -> Unit,
+    private val playListener: (RecordingModel) -> Unit
+) :
     RecyclerView.Adapter<SavedRecordingsViewHolder>() {
     private var recordingModels: List<RecordingModel> = listOf()
 
@@ -28,7 +30,8 @@ class SavedRecordingsAdapter(private val deleteListener:(RecordingModel) -> Unit
     override fun getItemCount(): Int {
         return recordingModels.size
     }
-//TODO look into better update logic
+
+    //TODO look into better update logic
     fun update(recordings: List<RecordingModel>) {
         recordingModels = recordings
         notifyDataSetChanged()
