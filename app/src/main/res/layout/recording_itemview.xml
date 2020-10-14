@@ -11,24 +11,25 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/delete_item"
         android:background="@android:color/transparent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/item_title"/>
+        android:src="@drawable/delete_item"
+        app:layout_constraintEnd_toEndOf="@+id/item_image"
+        app:layout_constraintStart_toEndOf="@id/item_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/item_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textAlignment="center"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/delete_item_button"
-        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/item_image"
-        tools:text="@string/placeholder_title_text"
-        android:gravity="center_horizontal" />
+        app:layout_constraintEnd_toEndOf="@+id/item_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/placeholder_title_text" />
     <ImageView
         android:id="@+id/item_image"
         android:layout_width="150dp"
@@ -59,5 +60,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/item_duration"
         tools:text="@string/placeholder_date_text"/>
+
+    <ImageButton
+        android:id="@+id/saved_recordings_play_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/play"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

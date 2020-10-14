@@ -1,7 +1,9 @@
 package com.example.datacubedrecorder.ui.savedrecordings.rv
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.datacubedrecorder.R
 import com.example.datacubedrecorder.data.database.model.RecordingModel
@@ -18,9 +20,9 @@ class SavedRecordingsAdapter(private val deleteListener:(RecordingModel) -> Unit
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onBindViewHolder(holder: SavedRecordingsViewHolder, position: Int) {
         holder.onBind(recordingModels[position], deleteListener, playListener)
-//        holder.itemView.delete_item_button.setOnClickListener{deleteListener(recordingModels[position])}
     }
 
     override fun getItemCount(): Int {

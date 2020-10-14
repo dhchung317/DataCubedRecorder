@@ -59,9 +59,11 @@ class SavedRecordingsFragment : Fragment() {
 
     private val playVideoListener: (RecordingModel) -> Unit = {it ->
         val intent = Intent(activity, PlayActivity::class.java)
-        intent.putExtra("video_path",it.path)
+        intent.putExtra(VIDEO_PATH_KEY,it.path)
         startActivity(intent)
     }
-}
 
-//TODO onclick items to play
+    companion object {
+        const val VIDEO_PATH_KEY = "video_path_key"
+    }
+}
