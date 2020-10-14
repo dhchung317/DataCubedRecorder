@@ -17,11 +17,14 @@ class SavedRecordingsViewHolder(itemView: View) :RecyclerView.ViewHolder(itemVie
     private val itemImageView: ImageView = itemView.findViewById(R.id.item_image)
     private val deleteButton: ImageButton = itemView.findViewById(R.id.delete_item_button)
 
-    fun onBind(recordingModel: RecordingModel, deleteListener:(RecordingModel) -> Unit) {
+    fun onBind(recordingModel: RecordingModel, deleteListener:(RecordingModel) -> Unit, playListener:(RecordingModel) -> Unit ) {
         itemTitleTextView.text = recordingModel.title
         itemDurationTextView.text = formatDuration(recordingModel.duration)
         itemDateTextView.text = recordingModel.date
         itemImageView.setImageResource(R.drawable.recording_image_placeholder)
+        itemImageView.setOnClickListener{
+            playListener(recordingModel)
+        }
         deleteButton.setOnClickListener{deleteListener(recordingModel)}
     }
 //TODO utils

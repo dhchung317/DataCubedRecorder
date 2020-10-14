@@ -31,5 +31,7 @@ data class RecordingModel(
     @ColumnInfo(name = "date")
     val date: String,
     @ColumnInfo(name = "image")
-    var image: String?
+    var image: String?,
+    @ColumnInfo(name = "path")
+    var path: String?
 ) : Parcelable

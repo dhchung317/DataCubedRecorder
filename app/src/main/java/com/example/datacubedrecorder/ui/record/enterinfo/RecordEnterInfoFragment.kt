@@ -73,7 +73,7 @@ class RecordEnterInfoFragment : Fragment() {
     private fun startRecording() {
         val intent = Intent(activity, RecordActivity::class.java)
         intent.putExtra("recording_data", getRecordingInfo())
-        viewModel.insertRecording(getRecordingInfo())
+
         titleEditText.text.clear()
         startActivity(intent)
     }
@@ -85,7 +85,8 @@ class RecordEnterInfoFragment : Fragment() {
             title = title,
             duration = duration,
             date = getDate(),
-            null
+            image = null,
+            path = null
         )
     }
 

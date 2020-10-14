@@ -1,5 +1,6 @@
 package com.example.datacubedrecorder.ui.savedrecordings
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.datacubedrecorder.R
 import com.example.datacubedrecorder.data.database.model.RecordingModel
 import com.example.datacubedrecorder.ui.MainViewModel
+import com.example.datacubedrecorder.ui.play.PlayActivity
 import com.example.datacubedrecorder.ui.savedrecordings.rv.SavedRecordingsAdapter
+import java.io.File
 
 /**
  * This fragment observes viewModel-liveData to update a gridded recyclerView with data saved in a Room database
@@ -44,14 +47,21 @@ class SavedRecordingsFragment : Fragment() {
     private fun initRecyclerView(view: View) {
         recordingsRecyclerView = view.findViewById(R.id.recordings_recyclerview)
         recordingsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        adapter = SavedRecordingsAdapter(deleteListener)
+        adapter = SavedRecordingsAdapter(deleteListener, playVideoListener)
         recordingsRecyclerView.adapter = adapter
     }
 
     private val deleteListener: (RecordingModel) -> Unit = { it ->
         viewModel.deleteByTitle(it.title)
+        val file = File(it.path)
+        file.delete()
+    }
+
+    private val playVideoListener: (RecordingModel) -> Unit = {it ->
+        val intent = Intent(activity, PlayActivity::class.java)
+        intent.putExtra("video_path",it.path)
+        startActivity(intent)
     }
 }
 
-//TODO onclick items to play,
-//TODO long press to show menu for deletion??
+//TODO onclick items to play
