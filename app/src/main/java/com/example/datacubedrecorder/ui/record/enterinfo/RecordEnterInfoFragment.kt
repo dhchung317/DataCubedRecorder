@@ -73,7 +73,6 @@ class RecordEnterInfoFragment : Fragment() {
     private fun startRecording() {
         val intent = Intent(activity, RecordActivity::class.java)
         intent.putExtra("recording_data", getRecordingInfo())
-
         titleEditText.text.clear()
         startActivity(intent)
     }
@@ -112,5 +111,3 @@ class RecordEnterInfoFragment : Fragment() {
     }
 
 }
-
-//TODO prevent keyboard from pushing up views

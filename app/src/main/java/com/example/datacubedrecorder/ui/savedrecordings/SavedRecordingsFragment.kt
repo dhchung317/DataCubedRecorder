@@ -63,5 +63,3 @@ class SavedRecordingsFragment : Fragment() {
         startActivity(intent)
     }
 }
-
-//TODO onclick items to play
