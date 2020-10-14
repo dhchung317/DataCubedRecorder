@@ -47,5 +47,4 @@ class MainActivity : AppCompatActivity() {
     }
 }
 //TODO extensibility
-//TODO prevent memory leaks
-
+//TODO screen size adaptability / min/max height / scaling fonts
